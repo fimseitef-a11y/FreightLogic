@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Freight Logic" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" />
+  <title>Freight Logic</title>
+  <link rel="manifest" href="manifest.json?v=12.9.0-omega-ultimate">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icon167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icon152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icon120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon16.png">
+  <style>
+    :root{
+      --bg:#0b1220;--card:#111a2e;--muted:#93a4c7;--text:#e9f0ff;
+      --line:rgba(255,255,255,.08);--accent:#ffb300;
+      --bad:#ff6b6b;--good:#6bff95;--warn:#ffb300;
+      --shadow:0 10px 30px rgba(0,0,0,.35);--r:18px;
+      --spring:cubic-bezier(.175,.885,.32,1.275);
+      --ease-out:cubic-bezier(.25,.46,.45,.94);
+      --ease-smooth:cubic-bezier(.4,0,.2,1);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{height:100%;overscroll-behavior-y:none}
+    body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+      background:radial-gradient(1200px 800px at 20% -10%,rgba(255,179,0,.12),transparent 60%),
+        radial-gradient(900px 600px at 100% 0%,rgba(99,102,241,.18),transparent 55%),var(--bg);
+      color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .app{max-width:860px;margin:0 auto;padding:14px 14px calc(92px + env(safe-area-inset-bottom));
+      -webkit-overflow-scrolling:touch}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:30;padding:12px 14px;
+      background:linear-gradient(180deg,rgba(11,18,32,.92),rgba(11,18,32,.68));
+      -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+      border-bottom:1px solid var(--line);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.5)}
+    .hdr-row{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:36px;height:36px;border-radius:10px;overflow:hidden;
+      box-shadow:0 4px 16px rgba(0,0,0,.3);transition:transform .2s var(--spring)}
+    .logo:active{transform:scale(.88)}
+    .title{display:flex;flex-direction:column;line-height:1.05}
+    .title strong{font-size:14px;letter-spacing:.2px}
+    .title span{font-size:12px;color:var(--muted)}
+
+    /* PILLS */
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:12px;color:var(--muted);
+      white-space:nowrap;transition:transform .15s,border-color .3s}
+    .pill b{color:var(--text);font-weight:700;transition:color .3s}
+    .pill.warn{border-color:rgba(255,179,0,.35)} .pill.warn b{color:var(--warn)}
+    .pill.danger{border-color:rgba(255,107,107,.35)} .pill.danger b{color:var(--bad)}
+    .pill:active{transform:scale(.96)}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+
+    /* CARDS */
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;
+      transition:transform .15s var(--ease-out),box-shadow .15s}
+    .card:active{transform:scale(.985);box-shadow:0 5px 15px rgba(0,0,0,.3)}
+    .card h3{margin:0 0 10px;font-size:13px;letter-spacing:.3px;text-transform:uppercase;
+      color:var(--muted);font-weight:600}
+    .muted{color:var(--muted)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+    /* FORMS */
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px;font-weight:500}
+    input,select,textarea{width:100%;border-radius:14px;border:1px solid var(--line);
+      background:rgba(8,12,22,.55);color:var(--text);padding:12px 14px;outline:none;font-size:16px;
+      transition:border-color .2s,box-shadow .2s,transform .1s;-webkit-appearance:none;appearance:none}
+    input:focus,select:focus,textarea:focus{border-color:rgba(255,179,0,.55);
+      box-shadow:0 0 0 4px rgba(255,179,0,.08);transform:translateY(-1px)}
+    textarea{min-height:86px;resize:vertical}
+    select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%2393a4c7' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+
+    /* BUTTONS */
+    .btn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);
+      padding:12px 16px;border-radius:14px;font-weight:700;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:13px;
+      transition:transform .12s var(--spring),box-shadow .2s,background .2s;
+      -webkit-user-select:none;user-select:none;position:relative;overflow:hidden}
+    .btn:active{transform:scale(.93)}
+    .btn.primary{border-color:rgba(255,179,0,.55);
+      background:linear-gradient(180deg,rgba(255,179,0,.95),rgba(255,179,0,.55));color:#0b1220;
+      box-shadow:0 4px 20px rgba(255,179,0,.25)}
+    .btn.primary:active{box-shadow:0 2px 8px rgba(255,179,0,.15)}
+    .btn.danger{border-color:rgba(255,107,107,.55);background:rgba(255,107,107,.12)}
+    .btn.sm{padding:8px 10px;font-size:12px;border-radius:10px}
+    .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+    /* LIST ITEMS */
+    .list{display:flex;flex-direction:column;gap:10px}
+    .item{border:1px solid var(--line);border-radius:16px;padding:12px;
+      background:rgba(255,255,255,.03);display:flex;justify-content:space-between;gap:10px;
+      transition:transform .2s var(--ease-out),opacity .25s,box-shadow .15s;
+      position:relative;overflow:hidden}
+    .item:active{transform:scale(.98);box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    .item .left{min-width:0;flex:1} .item .right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+    .item .k{font-size:12px;color:var(--muted)} .item .v{font-weight:800}
+    .item .sub{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}
+    .tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03);color:var(--muted);transition:all .2s}
+    .tag.good{border-color:rgba(107,255,149,.35);color:rgba(107,255,149,.9)}
+    .tag.bad{border-color:rgba(255,107,107,.35);color:rgba(255,107,107,.9)}
+
+    /* Stagger entry animation */
+    @keyframes itemIn{from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)}}
+    .item.enter{animation:itemIn .3s var(--ease-out) both}
+
+    .split{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .spacer{height:12px}
+    .field{margin-bottom:4px}
+    .chk{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+    .mono{font-family:"SF Mono","Menlo","Monaco","Consolas",monospace;font-size:13px;line-height:1.6}
+
+    /* VIEW TRANSITIONS */
+    @keyframes viewIn{from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)}}
+    .view.entering{animation:viewIn .25s var(--ease-out) both}
+
+    /* PULL TO REFRESH */
+    .ptr-zone{text-align:center;height:0;overflow:hidden;transition:height .2s;
+      color:var(--accent);font-size:12px;font-weight:600}
+    .ptr-zone.active{height:40px;line-height:40px}
+    .ptr-spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,179,0,.3);
+      border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* BOTTOM NAV */
+    .bottom{position:fixed;left:0;right:0;bottom:0;
+      padding:6px 10px calc(6px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,rgba(11,18,32,0),rgba(11,18,32,.96) 18%,rgba(11,18,32,.99));
+      -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+      border-top:1px solid var(--line);z-index:50}
+    .nav{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-around;gap:2px}
+    .nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+      text-decoration:none;color:var(--muted);padding:6px 2px;border-radius:12px;
+      transition:color .2s,transform .12s var(--spring);-webkit-user-select:none;user-select:none;position:relative}
+    .nav a:active{transform:scale(.85)}
+    .nav a .ni{font-size:22px;line-height:1;transition:transform .25s var(--spring)}
+    .nav a .nl{font-size:10px;font-weight:600;letter-spacing:.2px}
+    .nav a.active{color:var(--accent)}
+    .nav a.active .ni{transform:scale(1.12)}
+    .nav a::after{content:'';position:absolute;bottom:0;left:50%;width:4px;height:4px;
+      border-radius:50%;background:var(--accent);transform:translateX(-50%) scale(0);
+      transition:transform .25s var(--spring)}
+    .nav a.active::after{transform:translateX(-50%) scale(1)}
+    .nav .fab-wrap{flex:0 0 58px;display:flex;justify-content:center}
+    .fab{width:50px;height:50px;border-radius:16px;border:1px solid rgba(255,179,0,.55);
+      background:linear-gradient(135deg,rgba(255,179,0,.95),rgba(255,179,0,.6));
+      color:#0b1220;font-weight:900;font-size:24px;
+      box-shadow:0 8px 30px rgba(255,179,0,.25);
+      display:grid;place-items:center;cursor:pointer;
+      transition:transform .2s var(--spring),box-shadow .2s,border-radius .3s;
+      -webkit-user-select:none;user-select:none}
+    .fab:active{transform:scale(.82);box-shadow:0 4px 15px rgba(255,179,0,.15)}
+    .fab.open{transform:rotate(45deg);border-radius:50%}
+    .fab.pulse{animation:fabPulse 2s ease-in-out infinite}
+    @keyframes fabPulse{0%,100%{box-shadow:0 8px 30px rgba(255,179,0,.25)}50%{box-shadow:0 8px 40px rgba(255,179,0,.55),0 0 20px rgba(255,179,0,.3)}}
+    .fab-hint{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);
+      background:#1a1a2e;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;
+      border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;
+      animation:hintFade 3s ease-in-out 1s infinite;border:1px solid rgba(255,179,0,.3)}
+    .fab-hint::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
+      border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #1a1a2e}
+    @keyframes hintFade{0%,100%{opacity:0}20%,80%{opacity:1}}
+
+    /* BOTTOM SHEET MODAL */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:60;
+      display:none;transition:background .3s}
+    .modal-backdrop.vis{background:rgba(0,0,0,.5)}
+    .modal{position:fixed;left:0;right:0;bottom:0;
+      width:100%;max-width:860px;margin:0 auto;max-height:92vh;overflow:auto;
+      z-index:61;border-radius:24px 24px 0 0;border:1px solid var(--line);border-bottom:none;
+      background:linear-gradient(180deg,rgba(20,30,52,.98),rgba(12,18,32,.99));
+      box-shadow:0 -10px 60px rgba(0,0,0,.5);padding:0 14px calc(14px + env(safe-area-inset-bottom));
+      transform:translateY(100%);transition:transform .35s var(--spring);
+      -webkit-overflow-scrolling:touch;overscroll-behavior:contain;display:none}
+    .modal.open{transform:translateY(0)}
+    .modal-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:10px auto 6px}
+    .modal header{position:sticky;top:0;padding:8px 0 10px;
+      background:linear-gradient(180deg,rgba(20,30,52,.98),rgba(20,30,52,.8));
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:0;z-index:5}
+    .modal .mhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .modal .mhead h2{margin:0;font-size:16px;font-weight:700}
+    .x{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+      background:rgba(255,255,255,.06);color:var(--muted);display:grid;place-items:center;
+      cursor:pointer;transition:transform .15s var(--spring);font-size:14px}
+    .x:active{transform:scale(.82)}
+
+    /* TOAST */
+    @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(16px) scale(.96)} to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+    @keyframes toastOut{from{opacity:1;transform:translateX(-50%) translateY(0) scale(1)} to{opacity:0;transform:translateX(-50%) translateY(8px) scale(.96)}}
+    .toast{position:fixed;bottom:calc(100px + env(safe-area-inset-bottom));left:50%;
+      transform:translateX(-50%);z-index:100;
+      background:linear-gradient(180deg,rgba(22,32,55,.96),rgba(14,20,38,.96));
+      -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+      border:1px solid var(--line);border-radius:14px;padding:12px 20px;
+      box-shadow:0 12px 40px rgba(0,0,0,.4);color:var(--text);font-size:13px;font-weight:600;
+      white-space:nowrap;pointer-events:none;opacity:0}
+    .toast.show{animation:toastIn .3s var(--spring) forwards}
+    .toast.hide{animation:toastOut .25s var(--ease-out) forwards}
+    .toast.err{border-color:rgba(255,107,107,.3)}
+
+    /* KPI PULSE */
+    @keyframes kpiPop{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+    .kpi-pop{animation:kpiPop .3s var(--ease-out)}
+
+    /* SKELETON */
+    @keyframes shimmer{0%{background-position:-200px 0}100%{background-position:calc(200px + 100%) 0}}
+    .skel{border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.06) 40%,rgba(255,255,255,.03) 80%);
+      background-size:200px 100%;animation:shimmer 1.4s infinite;min-height:56px;margin-bottom:10px}
+
+    /* PERIOD TABS */
+    .ptabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+    .ptabs .btn{transition:all .2s var(--ease-smooth)}
+    .ptabs .btn.act{border-color:rgba(255,179,0,.55);background:rgba(255,179,0,.12);color:var(--accent)}
+
+    .ac-drop{position:absolute;left:0;right:0;top:100%;z-index:50;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:10px;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none}
+    .ac-drop.vis{display:block}
+    .ac-item{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+    .ac-item:hover,.ac-item.sel{background:rgba(255,255,255,.06)}
+    .ac-item:last-child{border-bottom:none}
+    .ac-item .ac-sub{font-size:11px;color:var(--muted);margin-top:2px}
+    .ac-wrap{position:relative}
+
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <header id="mainHeader">
+    <div class="hdr-row">
+      <div class="brand">
+        <img class="logo" src="icon64.png" alt="Freight Logic" width="36" height="36" />
+        <div class="title"><strong>Freight Logic</strong><span id="appMeta">loading…</span></div>
+      </div>
+      <div class="row">
+        <div class="pill" id="pillWeekNet"><span class="muted">Week Net</span> <b id="kpiWeekNet">—</b></div>
+        <div class="pill" id="pillUnpaid"><span class="muted">Unpaid</span> <b id="kpiUnpaid">—</b></div>
+      </div>
+    </div>
+  </header>
+  <datalist id="catList">
+    <option value="Fuel"><option value="Tolls"><option value="Repairs & Maintenance">
+    <option value="Insurance"><option value="Parking"><option value="Meals">
+    <option value="Truck Payment"><option value="ELD / Software"><option value="Permits & Licenses">
+    <option value="Supplies"><option value="Tires"><option value="Truck Wash">
+    <option value="Scales"><option value="Lumper Fees"><option value="Trailer Lease"><option value="Other">
+  </datalist>
+  <main class="app">
+    <section id="view-home" class="view">
+      <div id="homeWelcome" style="display:none"></div>
+      <div class="grid2">
+        <div class="card" id="homeOmegaCard"><h3>Ω Calculator</h3><div class="muted" style="margin-top:6px">Your locked Midwest Stack pricing tiers — instant targets.</div><div style="margin-top:12px"><a class="btn primary" href="#omega">Open Ω Calculator</a></div></div>
+        <div class="card"><h3>Today</h3><div class="row"><div class="pill"><span class="muted">Gross</span> <b id="kpiTodayGross">—</b></div><div class="pill"><span class="muted">Expenses</span> <b id="kpiTodayExp">—</b></div><div class="pill"><span class="muted">Net</span> <b id="kpiTodayNet">—</b></div></div><div class="spacer"></div><div class="btn-row"><button class="btn primary" id="btnQuickTrip">＋ Trip</button><button class="btn" id="btnQuickExpense">＋ Expense</button><button class="btn" id="btnQuickFuel">＋ Fuel</button></div></div>
+        <div class="card"><h3>Action Center</h3><div class="list" id="trendAlerts"></div><div class="list" id="homeActions"></div></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card" id="homePerfCard"><h3>Performance Command Center</h3>
+        <div class="row">
+          <div class="pill"><span class="muted">Revenue Velocity</span> <b id="pcRevVel">—</b></div>
+          <div class="pill"><span class="muted">Weekly Target</span> <b id="pcWkTarget">—</b></div>
+          <div class="pill"><span class="muted">Efficiency</span> <b id="pcEfficiency">—</b></div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div class="pill"><span class="muted">Avg Score</span> <b id="pcAvgScore">—</b></div>
+          <div class="pill"><span class="muted">Accept Rate</span> <b id="pcAcceptRate">—</b></div>
+          <div class="pill"><span class="muted">Fuel Drift</span> <b id="pcFuelDrift">—</b></div>
+        </div>
+        <div style="margin-top:10px;height:6px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden">
+          <div id="pcProgressBar" style="height:100%;width:0%;border-radius:3px;background:var(--accent);transition:width .5s var(--ease-smooth)"></div>
+        </div>
+        <div class="muted" style="font-size:11px;margin-top:6px" id="pcProgressLabel">Weekly progress</div>
+        <div id="pcCoaching" style="margin-top:8px"></div>
+        <div class="btn-row" style="margin-top:12px"><button class="btn" id="btnWeeklyReport">📊 Weekly Report</button><button class="btn" id="btnLoadCompare">⚖️ Compare Loads</button></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Recent Trips</h3><div class="list" id="homeRecentTrips"></div></div>
+    </section>
+    <section id="view-trips" class="view" style="display:none">
+      <div class="card"><div class="row" style="align-items:center;justify-content:space-between"><div><h3 style="margin:0">Trips</h3><div class="muted" style="font-size:12px">Order # is unique. Add fast, edit safely.</div></div><div class="split"><input id="tripSearch" placeholder="Search order # or customer" style="width:260px;max-width:60vw" /><button class="btn" id="btnTripFilter">Filter</button></div></div></div>
+      <div class="spacer"></div><div class="ptr-zone" id="tripsPTR"></div><div class="list" id="tripList"></div><div class="spacer"></div>
+      <div class="btn-row"><button class="btn" id="btnTripMore">Load more</button><button class="btn" id="btnTripExport">Export JSON</button><button class="btn" id="btnTripExportCSV">Export CSV</button><button class="btn" id="btnTripImport">Import</button></div>
+    </section>
+    <section id="view-expenses" class="view" style="display:none">
+      <div class="card"><div class="row" style="align-items:center;justify-content:space-between"><div><h3 style="margin:0">Expenses</h3><div class="muted" style="font-size:12px">Log it in 5 seconds. Categories optional.</div></div><input id="expSearch" placeholder="Search category or notes" style="width:260px;max-width:60vw" /></div></div>
+      <div class="spacer"></div><div class="ptr-zone" id="expPTR"></div><div class="list" id="expenseList"></div><div class="spacer"></div>
+      <div class="btn-row"><button class="btn" id="btnExpMore">Load more</button><button class="btn" id="btnExpExport">Export JSON</button><button class="btn" id="btnExpExportCSV">Export CSV</button><button class="btn" id="btnExpImport">Import</button></div>
+    </section>
+    <section id="view-money" class="view" style="display:none">
+      <div class="card"><h3>Money Owed To You</h3><div class="muted" style="font-size:12px">Every trip starts unpaid. When you get the check, tap "Mark Paid" — your aging report and cash flow track automatically.</div></div><div class="spacer"></div><div class="list" id="arList"></div>
+    </section>
+    <section id="view-fuel" class="view" style="display:none">
+      <div class="card"><div class="row" style="align-items:center;justify-content:space-between"><div><h3 style="margin:0">Fuel Log</h3><div class="muted" style="font-size:12px">Track every fill-up. If you need IFTA reporting, turn it on in Settings.</div></div><div class="split"><button class="btn primary" id="btnAddFuel2">＋ Fuel</button><button class="btn" id="btnFuelExportCSV">Export CSV</button></div></div></div>
+      <div class="spacer"></div><div class="card"><h3>IFTA Summary (by state)</h3><div id="iftaSummary" class="row"><div class="muted" style="font-size:12px">Add fuel entries to see state-by-state breakdown.</div></div></div>
+      <div class="spacer"></div><div class="ptr-zone" id="fuelPTR"></div><div class="list" id="fuelList"></div><div class="spacer"></div>
+      <div class="btn-row"><button class="btn" id="btnFuelMore">Load more</button></div>
+    </section>
+    <section id="view-insights" class="view" style="display:none">
+      <div class="grid2">
+        <div class="card"><h3>Weekly snapshot</h3><div class="row"><div class="pill"><span class="muted">Gross</span> <b id="wkGross">—</b></div><div class="pill"><span class="muted">Exp</span> <b id="wkExp">—</b></div><div class="pill"><span class="muted">Net</span> <b id="wkNet">—</b></div></div><div class="row" style="margin-top:10px"><div class="pill"><span class="muted">Loaded mi</span> <b id="wkLoaded">—</b></div><div class="pill"><span class="muted">All mi</span> <b id="wkAll">—</b></div><div class="pill"><span class="muted">RPM</span> <b id="wkRpm">—</b></div></div><div class="row" style="margin-top:10px"><div class="pill" id="deadheadPill"><span class="muted">Deadhead %</span> <b id="wkDeadhead">—</b></div></div></div>
+        <div class="card"><h3>Settings</h3><label>Weekly gross goal ($)</label><input id="weeklyGoal" type="number" step="1" placeholder="e.g., 5000" /><label>UI Mode</label><select id="uiMode"><option value="simple">Simple (default)</option><option value="pro">Pro</option></select><label>Per diem rate (optional)</label><input id="perDiemRate" type="number" step="0.01" placeholder="e.g., 69.00" /><label>Vehicle MPG</label><input id="vehicleMpg" type="number" step="0.1" placeholder="e.g., 16.1 for Transit, 6.5 for semi" /><div class="muted" style="font-size:11px;margin-top:2px">Used for fuel cost estimates in Load Score</div><label>Fuel price ($/gal)</label><input id="fuelPrice" type="number" step="0.01" placeholder="e.g., 2.89" /><div class="muted" style="font-size:11px;margin-top:2px">Set high as a buffer — update monthly</div><label>IFTA tracking</label><select id="iftaMode"><option value="on">On — include IFTA in exports</option><option value="off">Off — skip IFTA sections</option></select><label>Broker window</label><select id="brokerWindow"><option value="90">Last 90 days</option><option value="180">Last 6 months</option><option value="365">Last year</option><option value="0">All time</option></select><div class="spacer"></div><div class="btn-row"><button class="btn" id="btnSaveSettings">Save</button><button class="btn danger" id="btnHardReset">Hard reset (danger)</button></div><div class="muted" style="font-size:12px;margin-top:10px">Hard reset clears local database on this device only.</div></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Storage health &amp; recovery</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Protects your order data.</div><div class="row"><div class="pill"><span class="muted">Trips</span> <b id="stTrips">0</b></div><div class="pill"><span class="muted">Expenses</span> <b id="stExpenses">0</b></div><div class="pill"><span class="muted">Fuel</span> <b id="stFuel">0</b></div><div class="pill"><span class="muted">Receipt sets</span> <b id="stReceiptSets">0</b></div><div class="pill"><span class="muted">Receipt blobs</span> <b id="stReceiptBlobs">0</b></div></div><div class="spacer"></div><div class="btn-row"><button class="btn" id="btnStorageRefresh">Refresh</button><button class="btn" id="btnStorageAnalyze">Analyze sizes</button><button class="btn" id="btnStorageRebuild">Rebuild receipt index</button><button class="btn danger" id="btnStorageClearCache">Clear receipt cache</button></div><div class="muted" style="font-size:12px;margin-top:10px" id="stStatus">—</div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Money &amp; AR</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Track unpaid trips and accounts receivable aging.</div><a class="btn" href="#money">View AR / Unpaid Trips</a></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Tax quick view</h3><div class="ptabs" id="taxPeriodTabs"><button class="btn sm act" data-period="week">Week</button><button class="btn sm" data-period="month">Month</button><button class="btn sm" data-period="quarter">Quarter</button><button class="btn sm" data-period="ytd">YTD</button></div><div class="row"><div class="pill"><span class="muted">Gross</span> <b id="taxGross">$0</b></div><div class="pill"><span class="muted">Expenses</span> <b id="taxExpenses">$0</b></div><div class="pill"><span class="muted">Net</span> <b id="taxNet">$0</b></div></div><div class="row" style="margin-top:10px"><div class="pill"><span class="muted">Per diem</span> <b id="taxPerDiem">$0</b></div><div class="pill"><span class="muted">SE tax (15.3%)</span> <b id="taxSE">$0</b></div><div class="pill"><span class="muted">Profit</span> <b id="taxProfit">$0</b></div></div><div class="muted" style="font-size:12px;margin-top:10px">Quick estimate. Not tax advice.</div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Export to Accountant</h3><div class="muted" style="font-size:12px;margin-bottom:10px">One-tap quarterly package: P&amp;L, categorized expenses, IFTA fuel report, per diem — formatted for your CPA.</div><div class="ptabs" id="acctPeriodTabs"><button class="btn sm" data-acct="q1">Q1</button><button class="btn sm" data-acct="q2">Q2</button><button class="btn sm" data-acct="q3">Q3</button><button class="btn sm" data-acct="q4">Q4</button><button class="btn sm act" data-acct="ytd">YTD</button></div><button class="btn primary" id="btnAccountantExport" style="margin-top:10px">📋 Generate Package</button></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Ω Stack Calculator</h3><a class="btn primary" href="#omega">Open Ω Calculator</a></div>
+    </section>
+    <section id="view-omega" class="view" style="display:none">
+      <div class="card"><h2 style="margin:0 0 6px 0">Ω Stack Operator Calculator 3.5</h2><div class="muted">All pricing based on <b>ALL miles</b>. Outputs are locked format.</div></div>
+      <div class="grid2" style="margin-top:14px">
+        <div class="card"><h3>Inputs</h3><div class="field"><label>All-in miles (required)</label><input id="omMiles" inputmode="numeric" placeholder="e.g. 420" /></div><div class="field"><label>Empty miles (optional)</label><input id="omEmpty" inputmode="numeric" placeholder="e.g. 15" /></div><div class="field"><label>Drop tier</label><select id="omDropTier"><option value="1">Tier-1 (dense)</option><option value="2">Tier-2 (controlled)</option><option value="3">Tier-3 (thin/rural)</option></select></div><div class="field"><label>Drive time increase % (route delay)</label><input id="omDelayPct" inputmode="decimal" placeholder="e.g. 0 or 15" /><div class="muted" style="margin-top:6px">If ≥15%, treated as next mileage tier up.</div></div><div class="field"><label>Risk conditions</label><div class="grid2" style="margin-top:8px"><label class="chk"><input type="checkbox" id="omOvernight"> Overnight / long day</label><label class="chk"><input type="checkbox" id="om250"> Load over 250 miles</label></div><div style="margin-top:10px"><select id="omRisk"><option value="none">No risk adder</option><option value="mod">Moderate rain/wind (+0.05 RPM)</option><option value="winter">Winter advisory (+0.10 RPM)</option><option value="ice">Ice / storm warning (+0.15 RPM)</option><option value="closure">Major closure risk (PASS unless Premium Win)</option></select></div></div><div class="field"><label>Day-3 weekly gross (erosion protection)</label><input id="omDay3Gross" inputmode="decimal" placeholder="e.g. 1800" /><label class="chk" style="margin-top:10px"><input type="checkbox" id="omErosionOk"> Allow one-tier lower if &lt; $2,000</label></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><button class="btn primary" id="omCalcBtn">Calculate</button><button class="btn" id="omResetBtn">Reset</button></div></div>
+        <div class="card"><h3>Locked Output</h3><pre id="omOutput" class="mono" style="white-space:pre-wrap;margin:0;min-height:260px"></pre><div class="muted" style="margin-top:10px">Tip: paste an offered load pay next to these targets and decide fast.</div></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="grid2"><div class="card"><h3>AR aging (unpaid)</h3><div class="row"><div class="pill"><span class="muted">0–15</span> <b id="ar0_15">$0</b></div><div class="pill"><span class="muted">16–30</span> <b id="ar16_30">$0</b></div><div class="pill"><span class="muted">31–45</span> <b id="ar31_45">$0</b></div><div class="pill"><span class="muted">46+</span> <b id="ar46p">$0</b></div></div></div><div class="card"><h3>Top brokers <span class="muted" id="brokerWindowLabel">(last 90d)</span></h3><div id="brokerList" class="list"></div></div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Top Lanes</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Your most-run corridors with RPM trend analysis.</div><div id="laneList" class="list"></div></div>
+    </section>
+  </main>
+  <div class="modal-backdrop" id="backdrop"></div>
+  <div class="modal" id="modal"><div class="modal-handle"></div><header><div class="mhead"><h2 id="modalTitle">Add</h2><button class="x" id="modalClose">✕</button></div></header><div id="modalBody"></div></div>
+  <div class="toast" id="toast"></div>
+  <div class="bottom"><div class="nav">
+    <a href="#home" data-nav="home" class="active"><div class="ni">🏠</div><div class="nl">Home</div></a>
+    <a href="#trips" data-nav="trips"><div class="ni">🚚</div><div class="nl">Trips</div></a>
+    <div class="fab-wrap"><div class="fab" id="fab">＋</div><div class="fab-hint" id="fabHint" style="display:none">Tap here to add a trip</div></div>
+    <a href="#expenses" data-nav="expenses"><div class="ni">💰</div><div class="nl">Expenses</div></a>
+    <a href="#fuel" data-nav="fuel"><div class="ni">⛽</div><div class="nl">Fuel</div></a>
+    <a href="#insights" data-nav="insights"><div class="ni">⚙️</div><div class="nl">More</div></a>
+  </div></div>
+  <script src="app.js?v=13.2.0-omega-midwest"></script>
+</body>
+</html>
