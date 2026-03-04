@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#141419" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Freight Logic" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" />
+  <title>Freight Logic</title>
+  <link rel="manifest" href="manifest.json?v=14.3.4-hardened">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icons/icon167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/icon120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon16.png">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       FREIGHT LOGIC — DESIGN SYSTEM v2.0 "Precision"
+       Linear/Notion-inspired: flat, structured, typography-driven
+       ═══════════════════════════════════════════════════════════════ */
+
+    :root {
+      /* Surface palette — lifted for daylight readability */
+      --bg: #141419;
+      --surface-0: #1a1a22;
+      --surface-1: #21212b;
+      --surface-2: #2a2a38;
+      --surface-3: #343445;
+
+      /* Borders — visible in daylight */
+      --border: rgba(255,255,255,0.10);
+      --border-subtle: rgba(255,255,255,0.07);
+      --border-focus: rgba(255,255,255,0.20);
+      --line: rgba(255,255,255,0.10);
+
+      /* Text — high contrast for outdoor use */
+      --text: #f4f4f8;
+      --text-secondary: #a8a8bc;
+      --text-tertiary: #8888a2;
+      --muted: #a8a8bc;
+
+      /* Accent */
+      --accent: #eba40f;
+      --accent-muted: rgba(235,164,15,0.12);
+      --accent-border: rgba(235,164,15,0.30);
+      --accent-text: #f5c030;
+
+      /* Semantic */
+      --good: #34d399; --good-muted: rgba(52,211,153,0.10); --good-border: rgba(52,211,153,0.25);
+      --bad: #f87171; --bad-muted: rgba(248,113,113,0.10); --bad-border: rgba(248,113,113,0.25);
+      --warn: #fbbf24; --warn-muted: rgba(251,191,36,0.10); --warn-border: rgba(251,191,36,0.25);
+
+      /* System */
+      --r: 12px; --r-sm: 8px; --r-pill: 20px;
+      --shadow: 0 4px 16px rgba(0,0,0,0.3);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+      --spring: cubic-bezier(.175,.885,.32,1.275);
+      --ease-out: cubic-bezier(.25,.46,.45,.94);
+      --ease-smooth: cubic-bezier(.4,0,.2,1);
+
+      /* Fonts */
+      --font: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Cascadia Code', 'Menlo', monospace;
+    }
+
+    /* ── Reset ─────────────────────────────────────────────────── */
+    *,*::before,*::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+    html { height: 100%; overscroll-behavior-y: none }
+    body {
+      margin: 0; height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      font-size: 14px; line-height: 1.5;
+    }
+    .app {
+      max-width: 680px; margin: 0 auto;
+      padding: 16px 16px calc(80px + env(safe-area-inset-bottom));
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Header ────────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 30;
+      padding: 10px 16px;
+      background: rgba(20,20,25,0.88);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .2s;
+    }
+    header.scrolled { box-shadow: 0 1px 0 var(--border), var(--shadow) }
+    .hdr-row { display: flex; align-items: center; gap: 12px; justify-content: space-between }
+    .brand { display: flex; align-items: center; gap: 10px }
+    .logo { width: 32px; height: 32px; border-radius: 8px; overflow: hidden; transition: transform .15s }
+    .logo:active { transform: scale(.9) }
+    .title { display: flex; flex-direction: column; line-height: 1.15 }
+    .title strong { font-size: 14px; font-weight: 700; letter-spacing: -.2px }
+    .title span { font-size: 11px; color: var(--text-tertiary); font-weight: 500 }
+
+    /* ── Pills ──────────────────────────────────────────────────── */
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: var(--r-pill);
+      border: 1px solid var(--border); background: var(--surface-1);
+      font-size: 12px; font-weight: 500; color: var(--text-secondary);
+      white-space: nowrap; transition: transform .12s, border-color .2s;
+    }
+    .pill b {
+      color: var(--text); font-family: var(--font-mono);
+      font-weight: 500; font-size: 13px; letter-spacing: -.3px;
+    }
+    .pill.warn { border-color: var(--warn-border); background: var(--warn-muted) }
+    .pill.warn b { color: var(--warn) }
+    .pill.danger { border-color: var(--bad-border); background: var(--bad-muted) }
+    .pill.danger b { color: var(--bad) }
+    .pill:active { transform: scale(.96) }
+    .row { display: flex; gap: 8px; flex-wrap: wrap }
+
+    /* ── Cards ──────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface-1); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px;
+      box-shadow: none;
+      transition: transform .12s, box-shadow .12s;
+    }
+    .card:active { transform: scale(.998) }
+    .card h3 {
+      margin: 0 0 12px; font-size: 11px; letter-spacing: .8px;
+      text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;
+    }
+    .muted { color: var(--text-secondary) }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+    @media(max-width:640px) { .grid2 { grid-template-columns: 1fr } }
+
+    /* ── KPI Hero (home dashboard) ──────────────────────────────── */
+    .kpi-hero { text-align: center; padding: 8px 0 4px }
+    .kpi-hero-value {
+      font-family: var(--font-mono); font-size: 38px; font-weight: 500;
+      letter-spacing: -1.5px; color: var(--text); line-height: 1;
+    }
+    .kpi-hero-label {
+      font-size: 11px; color: var(--text-tertiary); font-weight: 500;
+      margin-top: 6px; text-transform: uppercase; letter-spacing: .6px;
+    }
+    .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px }
+    .kpi-cell {
+      background: var(--surface-0); border: 1px solid var(--border-subtle);
+      border-radius: var(--r-sm); padding: 12px; text-align: center;
+    }
+    .kpi-cell-value {
+      font-family: var(--font-mono); font-size: 18px; font-weight: 500;
+      letter-spacing: -.5px; color: var(--text);
+    }
+    .kpi-cell-label { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; font-weight: 500 }
+
+    /* ── Forms ──────────────────────────────────────────────────── */
+    label {
+      display: block; font-size: 12px; color: var(--text-secondary);
+      margin: 14px 0 6px; font-weight: 600; letter-spacing: .1px;
+    }
+    input, select, textarea {
+      width: 100%; border-radius: var(--r-sm); border: 1px solid var(--border);
+      background: var(--surface-0); color: var(--text); padding: 10px 12px;
+      outline: none; font-size: 15px; font-family: var(--font);
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-border); box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-tertiary) }
+    textarea { min-height: 80px; resize: vertical }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%235a5a6e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px;
+    }
+
+    /* ── Buttons ────────────────────────────────────────────────── */
+    .btn {
+      border: 1px solid var(--border); background: var(--surface-1); color: var(--text);
+      padding: 10px 16px; border-radius: var(--r-sm);
+      font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 13px; font-family: var(--font); min-height:48px;
+      transition: transform .1s, background .15s, border-color .15s;
+      -webkit-user-select: none; user-select: none; position: relative; overflow: hidden;
+    }
+    .btn:active { transform: scale(.96) }
+    .btn.primary {
+      border-color: var(--accent-border); background: var(--accent);
+      color: var(--bg); font-weight: 700;
+      box-shadow: 0 2px 12px rgba(235,164,15,.15);
+    }
+    .btn.primary:active { box-shadow: 0 1px 4px rgba(235,164,15,.1) }
+    .btn.danger { border-color: var(--bad-border); background: var(--bad-muted); color: var(--bad) }
+    .btn.sm { padding: 6px 10px; font-size: 12px; min-height: 32px; border-radius: 6px }
+    .btn:disabled { opacity: .35; cursor: not-allowed; transform: none !important }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap }
+
+    /* ── List items ─────────────────────────────────────────────── */
+    .list { display: flex; flex-direction: column; gap: 2px }
+    .item {
+      border: 1px solid var(--border-subtle); border-radius: var(--r-sm);
+      padding: 12px 14px; background: var(--surface-1);
+      display: flex; justify-content: space-between; gap: 12px;
+      transition: transform .15s, background .15s, border-color .15s;
+      position: relative; overflow: hidden;
+      border-left: 3px solid var(--surface-3);
+    }
+    .item:active { transform: scale(.99); background: var(--surface-2) }
+    .item .left { min-width: 0; flex: 1 }
+    .item .right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0 }
+    .item .k { font-size: 11px; color: var(--text-tertiary); font-weight: 500; text-transform: uppercase; letter-spacing: .3px }
+    .item .v { font-weight: 700; font-family: var(--font-mono); font-size: 15px; letter-spacing: -.3px }
+    .item .sub {
+      font-size: 12px; color: var(--text-tertiary); overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap; max-width: 320px; margin-top: 2px;
+    }
+    .tag {
+      font-size: 11px; padding: 3px 8px; border-radius: var(--r-pill);
+      border: 1px solid var(--border); background: var(--surface-0);
+      color: var(--text-secondary); font-weight: 500; transition: all .2s;
+    }
+    .tag.good { border-color: var(--good-border); background: var(--good-muted); color: var(--good) }
+    .tag.bad { border-color: var(--bad-border); background: var(--bad-muted); color: var(--bad) }
+
+    /* Stagger entry */
+    @keyframes itemIn { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+    .item.enter { animation: itemIn .2s var(--ease-smooth) both }
+
+    .split { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+    .spacer { height: 12px }
+    .field { margin-bottom: 4px }
+    .chk { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px }
+    .mono { font-family: var(--font-mono); font-size: 13px; line-height: 1.6 }
+
+    /* ── View transitions ──────────────────────────────────────── */
+    @keyframes viewIn { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: translateY(0) } }
+    .view.entering { animation: viewIn .2s var(--ease-smooth) both }
+
+    /* ── Pull to refresh ───────────────────────────────────────── */
+    .ptr-zone { text-align: center; height: 0; overflow: hidden; transition: height .2s; color: var(--accent-text); font-size: 12px; font-weight: 600 }
+    .ptr-zone.active { height: 40px; line-height: 40px }
+    .ptr-spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--accent-muted); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px }
+    @keyframes spin { to { transform: rotate(360deg) } }
+
+    /* ── Bottom nav ────────────────────────────────────────────── */
+    .bottom {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      padding: 0 12px env(safe-area-inset-bottom);
+      background: rgba(20,20,25,0.90);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      backdrop-filter: saturate(180%) blur(24px);
+      border-top: 1px solid var(--border); z-index: 50;
+    }
+    .nav { max-width: 680px; margin: 0 auto; display: flex; align-items: center; justify-content: space-around; height: 56px }
+    .nav a {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      text-decoration: none; color: var(--text-tertiary); padding: 6px 2px;
+      transition: color .15s; -webkit-user-select: none; user-select: none; position: relative;
+    }
+    .nav a:active .ni { transform: scale(.85) }
+    .nav a .ni { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; transition: transform .15s var(--spring), color .15s; font-size: 22px; line-height: 1 }
+    .nav a .ni svg { width: 22px; height: 22px }
+    .nav a .nl { font-size: 10px; font-weight: 600; letter-spacing: .2px }
+    .nav a.active { color: var(--accent-text) }
+    .nav a.active .ni svg { stroke-width: 2.4 }
+    .nav a::after {
+      content: ''; position: absolute; top: 0; left: 50%;
+      width: 20px; height: 2px; border-radius: 1px; background: var(--accent);
+      transform: translateX(-50%) scaleX(0); transition: transform .2s var(--spring);
+    }
+    .nav a.active::after { transform: translateX(-50%) scaleX(1) }
+    .nav .fab-wrap { flex: 0 0 58px; display: flex; justify-content: center }
+
+    /* ── Menu grid ─────────────────────────────────────────────── */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+    .menu-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+      padding: 20px 12px; border-radius: var(--r); background: var(--surface-1);
+      border: 1px solid var(--border); cursor: pointer;
+      transition: transform .12s, background .15s, border-color .15s;
+    }
+    .menu-tile:active { transform: scale(.97); background: var(--surface-2) }
+    .menu-tile .ti { font-size: 24px; line-height: 1 }
+    .menu-tile .tt { font-size: 13px; font-weight: 700; color: var(--text); text-align: center }
+    .menu-tile .ts { font-size: 11px; color: var(--text-tertiary); text-align: center; line-height: 1.3 }
+
+    /* ── FAB ────────────────────────────────────────────────────── */
+    .fab {
+      width: 44px; height: 44px; border-radius: 12px;
+      border: 1px solid var(--accent-border); background: var(--accent);
+      color: var(--bg); font-weight: 800; font-size: 22px;
+      display: grid; place-items: center; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(235,164,15,.2);
+      transition: transform .15s var(--spring), box-shadow .15s, border-radius .2s;
+      -webkit-user-select: none; user-select: none;
+    }
+    .fab:active { transform: scale(.85); box-shadow: 0 2px 8px rgba(235,164,15,.1) }
+    .fab.open { transform: rotate(45deg); border-radius: 50% }
+    .fab.pulse { animation: fabPulse 2.5s ease-in-out infinite }
+    @keyframes fabPulse { 0%,100% { box-shadow: 0 4px 20px rgba(235,164,15,.2) } 50% { box-shadow: 0 4px 30px rgba(235,164,15,.4) } }
+    .fab-hint {
+      position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%);
+      background: var(--surface-2); color: var(--text); font-size: 12px; font-weight: 600;
+      padding: 6px 12px; border-radius: 6px; white-space: nowrap; pointer-events: none;
+      opacity: 0; animation: hintFade 3s ease-in-out 1s infinite; border: 1px solid var(--border);
+    }
+    .fab-hint::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--surface-2) }
+    @keyframes hintFade { 0%,100% { opacity: 0 } 20%,80% { opacity: 1 } }
+
+    /* ── Modal ──────────────────────────────────────────────────── */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 60; display: none; transition: background .25s }
+    .modal-backdrop.vis { background: rgba(0,0,0,.6) }
+    .modal {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      width: 100%; max-width: 680px; margin: 0 auto; max-height: 92vh; overflow: auto;
+      z-index: 61; border-radius: 16px 16px 0 0;
+      border: 1px solid var(--border); border-bottom: none;
+      background: var(--surface-0); box-shadow: 0 -8px 40px rgba(0,0,0,.5);
+      padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+      transform: translateY(100%); transition: transform .3s var(--spring);
+      -webkit-overflow-scrolling: touch; overscroll-behavior: contain; display: none;
+    }
+    .modal.open { transform: translateY(0) }
+    .modal-handle { width: 32px; height: 3px; border-radius: 2px; background: var(--surface-3); margin: 10px auto 6px }
+    .modal header { position: sticky; top: 0; padding: 8px 0 12px; background: var(--surface-0); border: 0; z-index: 5 }
+    .modal .mhead { display: flex; align-items: center; justify-content: space-between; gap: 10px }
+    .modal .mhead h2 { margin: 0; font-size: 16px; font-weight: 700 }
+    .x {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface-1);
+      color: var(--text-secondary); display: grid; place-items: center;
+      cursor: pointer; font-size: 13px; transition: transform .12s var(--spring), background .15s;
+    }
+    .x:active { transform: scale(.85) }
+
+    /* ── Toast ──────────────────────────────────────────────────── */
+    @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(12px) } to { opacity: 1; transform: translateX(-50%) translateY(0) } }
+    @keyframes toastOut { from { opacity: 1; transform: translateX(-50%) translateY(0) } to { opacity: 0; transform: translateX(-50%) translateY(8px) } }
+    .toast {
+      position: fixed; bottom: calc(88px + env(safe-area-inset-bottom));
+      left: 50%; transform: translateX(-50%); z-index: 100;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 10px 18px; box-shadow: var(--shadow-lg);
+      color: var(--text); font-size: 13px; font-weight: 600;
+      white-space: nowrap; pointer-events: none; opacity: 0;
+    }
+    .toast.show { animation: toastIn .2s var(--ease-smooth) forwards }
+    .toast.hide { animation: toastOut .2s var(--ease-smooth) forwards }
+    .toast.err { border-color: var(--bad-border) }
+
+    /* ── KPI pulse ──────────────────────────────────────────────── */
+    @keyframes kpiPop { 0% { transform: scale(1) } 50% { transform: scale(1.04) } 100% { transform: scale(1) } }
+    .kpi-pop { animation: kpiPop .25s var(--ease-smooth) }
+
+    /* ── Skeleton ───────────────────────────────────────────────── */
+    @keyframes shimmer { 0% { background-position: -200px 0 } 100% { background-position: calc(200px + 100%) 0 } }
+    .skel { border-radius: var(--r-sm); background: linear-gradient(90deg, var(--surface-1), var(--surface-2) 40%, var(--surface-1) 80%); background-size: 200px 100%; animation: shimmer 1.2s infinite; min-height: 52px; margin-bottom: 8px }
+
+    /* ── Period tabs ────────────────────────────────────────────── */
+    .ptabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px }
+    .ptabs .btn { transition: all .15s }
+    .ptabs .btn.act { border-color: var(--accent-border); background: var(--accent-muted); color: var(--accent-text) }
+
+    /* ── Autocomplete ──────────────────────────────────────────── */
+    .ac-drop { position: absolute; left: 0; right: 0; top: 100%; z-index: 50; background: var(--surface-2); border: 1px solid var(--border-focus); border-radius: var(--r-sm); max-height: 200px; overflow-y: auto; box-shadow: var(--shadow-lg); display: none }
+    .ac-drop.vis { display: block }
+    .ac-item { padding: 10px 14px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--border-subtle); transition: background .1s }
+    .ac-item:hover, .ac-item.sel { background: var(--surface-3) }
+    .ac-item:last-child { border-bottom: none }
+    .ac-item .ac-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px }
+    .ac-wrap { position: relative }
+
+    /* ── Quick actions grid ─────────────────────────────────────── */
+    .quick-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 16px }
+    .quick-actions .btn { flex-direction: column; gap: 2px; padding: 14px 8px; font-size: 13px }
+
+    /* ── Midwest Stack tab panels ──────────────────────────────── */
+    .mw-tab-panel { transition: opacity .15s }
+
+    /* ── Responsive ─────────────────────────────────────────────── */
+    @media(max-width:380px) {
+      .kpi-hero-value { font-size: 30px }
+      .pill { padding: 5px 10px; font-size: 11px }
+      .pill b { font-size: 12px }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important } }
+  </style>
+</head>
+<body>
+  <header id="mainHeader">
+    <div class="hdr-row">
+      <div class="brand">
+        <img class="logo" src="icon64.png" alt="Freight Logic" width="32" height="32" />
+        <div class="title"><strong>Freight Logic</strong><span id="appMeta">loading…</span></div>
+      </div>
+      <div class="row">
+        <div class="pill" id="pillWeekNet"><span class="muted">Week</span> <b id="kpiWeekNet">—</b></div>
+        <div class="pill" id="pillUnpaid"><span class="muted">AR</span> <b id="kpiUnpaid">—</b></div>
+      </div>
+    </div>
+  </header>
+  <datalist id="catList">
+    <option value="Fuel"><option value="Tolls"><option value="Repairs & Maintenance">
+    <option value="Insurance"><option value="Parking"><option value="Meals">
+    <option value="Truck Payment"><option value="ELD / Software"><option value="Permits & Licenses">
+    <option value="Supplies"><option value="Tires"><option value="Truck Wash">
+    <option value="Scales"><option value="Lumper Fees"><option value="Trailer Lease"><option value="Other">
+  </datalist>
+  <main class="app">
+    <section id="view-home" class="view">
+      <div id="homeWelcome" style="display:none"></div>
+      <div id="homeOmegaCard" style="display:none"><div id="homeOmegaCard" class="card" style="display:flex;align-items:center;gap:14px;cursor:pointer"><div style="font-size:24px;line-height:1">⚡</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Midwest Stack</div><div class="muted" style="font-size:12px">Load filter &amp; market board</div></div><div style="color:var(--text-tertiary)">→</div></div></div>
+      <div class="card" style="margin-top:10px">
+        <h3>This Week</h3>
+        <div class="kpi-hero">
+          <div class="kpi-hero-value" id="kpiTodayNet">—</div>
+          <div class="kpi-hero-label">net income</div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-cell"><div class="kpi-cell-value" id="kpiTodayGross">—</div><div class="kpi-cell-label">Gross</div></div>
+          <div class="kpi-cell"><div class="kpi-cell-value" id="kpiTodayExp">—</div><div class="kpi-cell-label">Expenses</div></div>
+        </div>
+        <div class="quick-actions">
+          <button class="btn primary" id="btnQuickTrip">＋ Trip</button>
+          <button class="btn" id="btnQuickExpense">＋ Expense</button>
+          <button class="btn" id="btnQuickFuel">＋ Fuel</button>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>What's Next</h3><div class="list" id="trendAlerts"></div><div class="list" id="homeActions"></div></div>
+      <div class="spacer"></div>
+      <div class="card" id="homePerfCard"><h3>Performance</h3>
+        <div class="row">
+          <div class="pill"><span class="muted">RPM</span> <b id="pcRevVel">—</b></div>
+          <div class="pill"><span class="muted">Target</span> <b id="pcWkTarget">—</b></div>
+          <div class="pill"><span class="muted">Efficiency</span> <b id="pcEfficiency">—</b></div>
+        </div>
+        <div style="margin-top:14px;height:4px;border-radius:2px;background:var(--surface-0);overflow:hidden">
+          <div id="pcProgressBar" style="height:100%;width:0%;border-radius:2px;background:var(--accent);transition:width .5s var(--ease-smooth)"></div>
+        </div>
+        <div class="muted" style="font-size:11px;margin-top:6px" id="pcProgressLabel">Weekly progress</div>
+        <div id="pcCoaching" style="margin-top:8px"></div>
+        <div style="display:none" id="pcDetailRow"><div class="row" style="margin-top:10px">
+          <div class="pill"><span class="muted">Avg Score</span> <b id="pcAvgScore">—</b></div>
+          <div class="pill"><span class="muted">Accept</span> <b id="pcAcceptRate">—</b></div>
+          <div class="pill"><span class="muted">Fuel Δ</span> <b id="pcFuelDrift">—</b></div>
+        </div></div>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn" id="btnWeeklyReport" style="flex:1">📊 Weekly Report</button>
+          <button class="btn" id="btnLoadCompare" style="flex:1">⚖️ Compare Loads</button>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Recent Trips</h3><div class="list" id="homeRecentTrips"></div></div>
+    </section>
+    <section id="view-trips" class="view" style="display:none">
+      <div class="card">
+        <h3 style="margin:0 0 10px">Trips</h3>
+        <input id="tripSearch" placeholder="Search order # or customer…" />
+      </div>
+      <div class="spacer"></div><div class="ptr-zone" id="tripsPTR"></div><div class="list" id="tripList"></div><div class="spacer"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="btnTripMore" style="flex:1">Load more</button><button class="btn" id="btnTripExport" style="flex:1">Export JSON</button><button class="btn" id="btnTripExportCSV" style="flex:1">Export CSV</button><button class="btn" id="btnTripImport" style="flex:1">Import</button><button class="btn" id="btnTripFilter" style="flex:1">Filter</button></div>
+    </section>
+    <section id="view-expenses" class="view" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Expenses</h3><button class="btn primary" id="btnAddExp2" style="padding:8px 14px">＋ Add</button></div>
+        <input id="expSearch" placeholder="Search category or notes…" />
+      </div>
+      <div class="spacer"></div><div class="ptr-zone" id="expPTR"></div><div class="list" id="expenseList"></div><div class="spacer"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="btnExpMore" style="flex:1">Load more</button><button class="btn" id="btnExpExport" style="flex:1">Export JSON</button><button class="btn" id="btnExpExportCSV" style="flex:1">Export CSV</button><button class="btn" id="btnExpImport" style="flex:1">Import</button></div>
+    </section>
+    <section id="view-money" class="view" style="display:none">
+      <div class="card">
+        <h3>Money Owed To You</h3>
+        <div class="muted" style="font-size:13px;line-height:1.5">Unpaid trips by age. Tap "Mark Paid" when the check arrives.</div>
+        <div class="row" style="margin-top:12px">
+          <div class="pill"><span class="muted">0–15d</span> <b id="ar0_15m">$0</b></div>
+          <div class="pill"><span class="muted">16–30d</span> <b id="ar16_30m">$0</b></div>
+          <div class="pill"><span class="muted">31–45d</span> <b id="ar31_45m">$0</b></div>
+          <div class="pill warn"><span class="muted">46+d</span> <b id="ar46pm">$0</b></div>
+        </div>
+      </div>
+      <div class="spacer"></div><div class="list" id="arList"></div>
+    </section>
+    <section id="view-fuel" class="view" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Fuel Log</h3><button class="btn primary" id="btnAddFuel2" style="padding:8px 14px">＋ Fill-up</button></div>
+        <div class="muted" style="font-size:13px">Track every fill-up. IFTA reporting available in Settings.</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>IFTA Summary</h3><div id="iftaSummary" class="row"><div class="muted" style="font-size:13px">Add fuel entries to see state-by-state breakdown.</div></div></div>
+      <div class="spacer"></div><div class="ptr-zone" id="fuelPTR"></div><div class="list" id="fuelList"></div><div class="spacer"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="btnFuelMore" style="flex:1">Load more</button><button class="btn" id="btnFuelExportCSV" style="flex:1">Export CSV</button><button class="btn" id="btnFuelImport" style="flex:1">Import</button></div>
+    </section>
+    <section id="view-insights" class="view" style="display:none">
+      <div class="grid2">
+        <div class="card"><h3>Weekly Snapshot</h3><div class="row"><div class="pill"><span class="muted">Gross</span> <b id="wkGross">—</b></div><div class="pill"><span class="muted">Exp</span> <b id="wkExp">—</b></div><div class="pill"><span class="muted">Net</span> <b id="wkNet">—</b></div></div><div class="row" style="margin-top:8px"><div class="pill"><span class="muted">Loaded mi</span> <b id="wkLoaded">—</b></div><div class="pill"><span class="muted">All mi</span> <b id="wkAll">—</b></div><div class="pill"><span class="muted">RPM</span> <b id="wkRpm">—</b></div></div><div class="row" style="margin-top:8px"><div class="pill" id="deadheadPill"><span class="muted">Deadhead</span> <b id="wkDeadhead">—</b></div></div></div>
+        <div class="card"><h3>Settings</h3><label>Weekly gross goal ($)</label><input id="weeklyGoal" type="number" step="1" placeholder="e.g., 5000" /><label>UI Mode</label><select id="uiMode"><option value="simple">Simple</option><option value="pro">Pro</option></select><label>Per diem rate</label><input id="perDiemRate" type="number" step="0.01" placeholder="e.g., 69.00" /><label>Vehicle MPG</label><input id="vehicleMpg" type="number" step="0.1" placeholder="e.g., 6.5" /><div class="muted" style="font-size:11px;margin-top:2px">Used for fuel cost estimates</div><label>Fuel price ($/gal)</label><input id="fuelPrice" type="number" step="0.01" placeholder="e.g., 2.89" /><div class="muted" style="font-size:11px;margin-top:2px">Set high as a buffer</div><label>IFTA tracking</label><select id="iftaMode"><option value="on">On — include in exports</option><option value="off">Off — skip IFTA</option></select><label>Broker window</label><select id="brokerWindow"><option value="90">Last 90 days</option><option value="180">Last 6 months</option><option value="365">Last year</option><option value="0">All time</option></select><div class="spacer"></div><div class="btn-row"><button class="btn primary" id="btnSaveSettings">Save</button><button class="btn danger" id="btnHardReset">Hard Reset</button></div><div class="muted" style="font-size:11px;margin-top:8px">Hard reset clears all local data.</div></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Storage &amp; Recovery</h3><div class="row"><div class="pill"><span class="muted">Trips</span> <b id="stTrips">0</b></div><div class="pill"><span class="muted">Expenses</span> <b id="stExpenses">0</b></div><div class="pill"><span class="muted">Fuel</span> <b id="stFuel">0</b></div><div class="pill"><span class="muted">Receipts</span> <b id="stReceiptSets">0</b></div><div class="pill"><span class="muted">Blobs</span> <b id="stReceiptBlobs">0</b></div></div><div class="spacer"></div><div class="btn-row"><button class="btn" id="btnStorageRefresh">Refresh</button><button class="btn" id="btnStorageAnalyze">Analyze</button><button class="btn" id="btnStorageRebuild">Rebuild Index</button><button class="btn danger" id="btnStorageClearCache">Clear Cache</button></div><div class="muted" style="font-size:11px;margin-top:8px" id="stStatus">—</div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Money &amp; AR</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Track unpaid trips and aging.</div><a class="btn" href="#money">View AR / Unpaid</a></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Tax Quick View</h3><div class="ptabs" id="taxPeriodTabs"><button class="btn sm act" data-period="week">Week</button><button class="btn sm" data-period="month">Month</button><button class="btn sm" data-period="quarter">Quarter</button><button class="btn sm" data-period="ytd">YTD</button></div><div class="row"><div class="pill"><span class="muted">Gross</span> <b id="taxGross">$0</b></div><div class="pill"><span class="muted">Expenses</span> <b id="taxExpenses">$0</b></div><div class="pill"><span class="muted">Net</span> <b id="taxNet">$0</b></div></div><div class="row" style="margin-top:8px"><div class="pill"><span class="muted">Per diem</span> <b id="taxPerDiem">$0</b></div><div class="pill"><span class="muted">SE tax</span> <b id="taxSE">$0</b></div><div class="pill"><span class="muted">Profit</span> <b id="taxProfit">$0</b></div></div><div class="muted" style="font-size:11px;margin-top:10px">Quick estimate — not tax advice.</div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Export to Accountant</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Quarterly P&amp;L, expenses, IFTA fuel, per diem — for your CPA.</div><div class="ptabs" id="acctPeriodTabs"><button class="btn sm" data-acct="q1">Q1</button><button class="btn sm" data-acct="q2">Q2</button><button class="btn sm" data-acct="q3">Q3</button><button class="btn sm" data-acct="q4">Q4</button><button class="btn sm act" data-acct="ytd">YTD</button></div><button class="btn primary" id="btnAccountantExport" style="margin-top:10px">Generate Package</button></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Midwest Stack</h3><a class="btn primary" href="#omega">Open Stack</a></div>
+    </section>
+    <section id="view-omega" class="view" style="display:none">
+      <div class="card" style="padding-bottom:8px">
+        <h2 style="margin:0 0 8px 0;font-size:18px">Midwest Stack</h2>
+        <div class="muted" style="font-size:12px;margin-bottom:12px">Sustainable Density Operator • Position > Emotion</div>
+        <div class="ptabs" id="mwTabs" style="margin-bottom:0">
+          <button class="btn sm act" data-mwtab="eval">Load Filter</button>
+          <button class="btn sm" data-mwtab="omega">Ω Tiers</button>
+          <button class="btn sm" data-mwtab="board">Market Board</button>
+        </div>
+      </div>
+
+      <!-- ── TAB: 90-Second Load Evaluator ── -->
+      <div id="mwTabEval" class="mw-tab-panel" style="margin-top:12px">
+        <div class="grid2">
+          <div class="card"><h3>Load Details</h3>
+            <div class="field"><label>Origin</label><input id="mwOrigin" placeholder="e.g. Chicago" /></div>
+            <div class="field"><label>Destination</label><input id="mwDest" placeholder="e.g. Indianapolis" /></div>
+            <div class="field"><label>Loaded miles</label><input id="mwLoadedMi" inputmode="numeric" placeholder="e.g. 185" /></div>
+            <div class="field"><label>Deadhead miles</label><input id="mwDeadMi" inputmode="numeric" placeholder="e.g. 22" /></div>
+            <div class="field"><label>Revenue ($)</label><input id="mwRevenue" inputmode="decimal" placeholder="e.g. 420" /></div>
+            <div class="field"><label>Day of week</label><select id="mwDayOfWeek"><option value="mon">Monday</option><option value="tue">Tuesday</option><option value="wed">Wednesday</option><option value="thu">Thursday</option><option value="fri">Friday</option><option value="sat">Saturday</option><option value="sun">Sunday</option></select></div>
+            <div class="field"><label>Fatigue (1–10)</label><input id="mwFatigue" inputmode="numeric" placeholder="e.g. 3" min="1" max="10" /></div>
+            <div class="field"><label>Current weekly gross ($)</label><input id="mwWeeklyGross" inputmode="decimal" placeholder="e.g. 1800" /></div>
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <button class="btn primary" id="mwEvalBtn" style="flex:1">Evaluate Load</button>
+              <button class="btn" id="mwEvalReset">Clear</button>
+            </div>
+          </div>
+          <div class="card"><h3>Decision</h3>
+            <div id="mwEvalOutput" style="min-height:260px">
+              <div class="muted" style="font-size:13px;line-height:1.8">
+                Enter a load to run the 90-second filter.<br><br>
+                <span style="font-size:11px;color:var(--text-tertiary)">Geography → True RPM → Fuel → Weekly Position → Fatigue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="card">
+          <h3>Week Structure</h3>
+          <div class="row">
+            <div class="pill"><span class="muted">Weekly Gross</span> <b id="mwWeekGross">—</b></div>
+            <div class="pill"><span class="muted">True RPM</span> <b id="mwWeekRPM">—</b></div>
+            <div class="pill"><span class="muted">Net After Fuel</span> <b id="mwWeekNAF">—</b></div>
+          </div>
+          <div style="margin-top:12px;height:4px;border-radius:2px;background:var(--surface-0);overflow:hidden">
+            <div id="mwWeekBar" style="height:100%;width:0%;border-radius:2px;background:var(--good);transition:width .5s var(--ease-smooth)"></div>
+          </div>
+          <div class="muted" style="font-size:11px;margin-top:6px" id="mwWeekLabel">Target: $3,800–$4,200/week</div>
+        </div>
+      </div>
+
+      <!-- ── TAB: Ω Tiers (existing calculator, preserved) ── -->
+      <div id="mwTabOmega" class="mw-tab-panel" style="display:none;margin-top:12px">
+        <div class="card" style="margin-bottom:12px"><div class="muted" style="font-size:12px">All pricing based on <b>ALL miles</b>. Outputs are locked format.</div></div>
+        <div class="grid2">
+          <div class="card"><h3>Inputs</h3><div class="field"><label>All-in miles</label><input id="omMiles" inputmode="numeric" placeholder="e.g. 420" /></div><div class="field"><label>Empty miles</label><input id="omEmpty" inputmode="numeric" placeholder="e.g. 15" /></div><div class="field"><label>Drop tier</label><select id="omDropTier"><option value="1">Tier-1 (dense)</option><option value="2">Tier-2 (controlled)</option><option value="3">Tier-3 (thin/rural)</option></select></div><div class="field"><label>Drive time increase %</label><input id="omDelayPct" inputmode="decimal" placeholder="e.g. 0 or 15" /><div class="muted" style="margin-top:4px;font-size:11px">≥15% = next mileage tier up</div></div><div class="field"><label>Risk conditions</label><div class="grid2" style="margin-top:8px"><label class="chk"><input type="checkbox" id="omOvernight"> Overnight</label><label class="chk"><input type="checkbox" id="om250"> Over 250 mi</label></div><div style="margin-top:8px"><select id="omRisk"><option value="none">No risk adder</option><option value="mod">Moderate rain/wind (+0.05)</option><option value="winter">Winter advisory (+0.10)</option><option value="ice">Ice / storm (+0.15)</option><option value="closure">Major closure (PASS)</option></select></div></div><div class="field"><label>Day-3 weekly gross</label><input id="omDay3Gross" inputmode="decimal" placeholder="e.g. 1800" /><label class="chk" style="margin-top:8px"><input type="checkbox" id="omErosionOk"> Allow lower if &lt;$2k</label></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="omCalcBtn">Calculate</button><button class="btn" id="omResetBtn">Reset</button></div></div>
+          <div class="card"><h3>Locked Output</h3><pre id="omOutput" class="mono" style="white-space:pre-wrap;margin:0;min-height:240px"></pre></div>
+        </div>
+      </div>
+
+      <!-- ── TAB: Market Board Intelligence ── -->
+      <div id="mwTabBoard" class="mw-tab-panel" style="display:none;margin-top:12px">
+        <div class="grid2">
+          <div class="card"><h3>Log Market Observation</h3>
+            <div class="field"><label>Current location</label><input id="mbLocation" placeholder="e.g. Chicago" /></div>
+            <div class="field"><label>Board volume</label><select id="mbVolume"><option value="light">Light</option><option value="moderate">Moderate</option><option value="heavy">Heavy</option></select></div>
+            <div class="field"><label>Dominant direction</label><select id="mbDirection"><option value="mixed">Mixed</option><option value="N">North</option><option value="S">South</option><option value="E">East</option><option value="W">West</option></select></div>
+            <div class="field"><label>Density direction</label><select id="mbDensityDir"><option value="into-t1">Into Tier 1</option><option value="into-t2">Into Tier 2</option><option value="out">Out of Density</option></select></div>
+            <div class="field"><label>Visible RPM range (low–high)</label>
+              <div style="display:flex;gap:8px"><input id="mbRpmLow" inputmode="decimal" placeholder="Low" style="flex:1" /><input id="mbRpmHigh" inputmode="decimal" placeholder="High" style="flex:1" /></div>
+            </div>
+            <div class="field"><label>Compression score (0–100)</label><input id="mbCompression" inputmode="numeric" placeholder="e.g. 65" /></div>
+            <div class="field"><label>Reload probability (0–100)</label><input id="mbReload" inputmode="numeric" placeholder="e.g. 80" /></div>
+            <div class="field"><label>Deadhead risk (0–100)</label><input id="mbDeadRisk" inputmode="numeric" placeholder="e.g. 20" /></div>
+            <div class="field"><label>Notes</label><textarea id="mbNotes" rows="2" placeholder="Board feel, action taken…"></textarea></div>
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <button class="btn primary" id="mbSaveBtn" style="flex:1">Save Entry</button>
+              <button class="btn" id="mbClearBtn">Clear</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Reposition Signal</h3>
+            <div id="mbRepoSignal" style="min-height:80px">
+              <div class="muted" style="font-size:13px">Enter compression + RPM data to get a reposition recommendation.</div>
+            </div>
+            <div class="spacer"></div>
+            <h3>Recent Observations</h3>
+            <div class="list" id="mbLogList"><div class="muted" style="font-size:12px">No market entries yet.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Shared: AR / Brokers / Lanes ── -->
+      <div class="spacer"></div>
+      <div class="grid2"><div class="card"><h3>AR Aging</h3><div class="row"><div class="pill"><span class="muted">0–15</span> <b id="ar0_15">$0</b></div><div class="pill"><span class="muted">16–30</span> <b id="ar16_30">$0</b></div><div class="pill"><span class="muted">31–45</span> <b id="ar31_45">$0</b></div><div class="pill"><span class="muted">46+</span> <b id="ar46p">$0</b></div></div></div><div class="card"><h3>Top Brokers <span class="muted" id="brokerWindowLabel">(90d)</span></h3><div id="brokerList" class="list"></div></div></div>
+      <div class="spacer"></div>
+      <div class="card"><h3>Top Lanes</h3><div class="muted" style="font-size:12px;margin-bottom:10px">Most-run corridors with RPM trends.</div><div id="laneList" class="list"></div></div>
+    </section>
+    <section id="view-more" class="view" style="display:none">
+      <div class="card" style="margin-bottom:12px">
+        <h3 style="margin:0 0 12px">Quick Settings</h3>
+        <div class="grid2">
+          <div><label style="font-size:12px">Weekly goal ($)</label><input id="moreWeeklyGoal" type="number" step="1" placeholder="e.g., 4000" /></div>
+          <div><label style="font-size:12px">Vehicle MPG</label><input id="moreVehicleMpg" type="number" step="0.1" placeholder="e.g., 6.5" /></div>
+          <div><label style="font-size:12px">Fuel price ($/gal)</label><input id="moreFuelPrice" type="number" step="0.01" placeholder="e.g., 2.89" /></div>
+          <div><label style="font-size:12px">Per diem rate</label><input id="morePerDiem" type="number" step="0.01" placeholder="e.g., 69.00" /></div>
+        </div>
+        <button class="btn primary" id="moreSaveSettings" style="margin-top:12px;width:100%">Save Settings</button>
+      </div>
+      <div class="menu-grid" id="moreMenu"></div>
+      <div class="spacer"></div>
+      <div class="card" style="text-align:center">
+        <div class="muted" style="font-size:12px">Freight Logic <span id="moreVersion"></span></div>
+        <div class="muted" style="font-size:11px;margin-top:4px">Your data stays on this device.</div>
+      </div>
+    </section>
+  </main>
+  <div class="modal-backdrop" id="backdrop"></div>
+  <div class="modal" id="modal"><div class="modal-handle"></div><header><div class="mhead"><h2 id="modalTitle">Add</h2><button class="x" id="modalClose">✕</button></div></header><div id="modalBody"></div></div>
+  <div class="toast" id="toast"></div>
+  <div class="bottom"><div class="nav">
+    <a href="#home" data-nav="home" class="active">
+      <div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="nl">Home</div>
+    </a>
+    <a href="#trips" data-nav="trips">
+      <div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div class="nl">Trips</div>
+    </a>
+    <div class="fab-wrap"><div class="fab" id="fab">＋</div><div class="fab-hint" id="fabHint" style="display:none">Tap to add a trip</div></div>
+    <a href="#money" data-nav="money">
+      <div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <div class="nl">Money</div>
+    </a>
+    <a href="#more" data-nav="more">
+      <div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></div>
+      <div class="nl">More</div>
+    </a>
+  </div></div>
+  <script src="app.js?v=14.3.4-hardened"></script>
+</body>
+</html>
