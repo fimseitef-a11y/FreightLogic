@@ -1,0 +1,19 @@
+{
+  "name": "freightlogic",
+  "private": true,
+  "version": "16.3.1",
+  "description": "FreightLogic PWA - Tier-6 Omega + Playwright E2E + DAT API Ready",
+  "scripts": {
+    "certify:omega": "node mega_audit_v16.0.0.js",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "PWDEBUG=1 playwright test --headed",
+    "test:report": "playwright show-report",
+    "e2e:install-browsers": "playwright install --with-deps"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "http-server": "^14.1.1"
+  }
+}

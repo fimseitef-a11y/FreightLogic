@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>FreightLogic — Getting Started Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root { --bg:#0a0e17; --card:#131820; --border:#1e2736; --text:#e8ecf4; --muted:#7a8599; --accent:#f0a830; --good:#4ade80; --bad:#f87171; --blue:#60a5fa; --purple:#a78bfa; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+  .wrap { max-width:680px; margin:0 auto; padding:24px 20px 80px; }
+  h1 { font-size:32px; font-weight:700; margin-bottom:6px; background:linear-gradient(135deg,#f0a830,#ff6b6b 60%,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .subtitle { color:var(--muted); font-size:14px; margin-bottom:40px; }
+  .step { margin-bottom:36px; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:var(--card); }
+  .step-header { display:flex; align-items:center; gap:14px; padding:18px 20px; border-bottom:1px solid var(--border); }
+  .step-num { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#000; flex-shrink:0; }
+  .step-title { font-weight:700; font-size:16px; }
+  .step-body { padding:20px; }
+  .step-body p { color:var(--muted); font-size:14px; margin-bottom:14px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .screen { border-radius:12px; overflow:hidden; margin:14px 0; border:1px solid var(--border); position:relative; }
+  .screen-bar { height:28px; background:#1a1f2e; display:flex; align-items:center; padding:0 12px; gap:6px; }
+  .screen-dot { width:8px; height:8px; border-radius:50%; }
+  .screen-content { padding:16px; background:#12161f; font-size:13px; }
+  .mock-nav { display:flex; justify-content:space-around; padding:10px 0; border-top:1px solid var(--border); background:#0d1117; }
+  .mock-nav span { font-size:11px; text-align:center; color:var(--muted); }
+  .mock-nav span.act { color:var(--accent); font-weight:600; }
+  .mock-btn { display:inline-block; padding:8px 18px; border-radius:8px; font-weight:600; font-size:13px; cursor:default; }
+  .mock-btn.primary { background:var(--accent); color:#000; }
+  .mock-btn.outline { border:1px solid var(--border); color:var(--text); }
+  .mock-fab { width:48px; height:48px; border-radius:50%; background:var(--accent); color:#000; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; margin:0 auto; box-shadow:0 4px 20px rgba(240,168,48,.3); }
+  .mock-field { background:#1a1f2e; border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--text); font-size:13px; font-family:inherit; width:100%; margin:6px 0; }
+  .mock-card { border:1px solid var(--border); border-radius:10px; padding:14px; background:rgba(255,255,255,.02); margin:8px 0; }
+  .mock-kpi { display:flex; gap:8px; margin:8px 0; }
+  .mock-pill { padding:4px 10px; border-radius:6px; border:1px solid var(--border); font-size:11px; }
+  .mock-grade { font-family:'JetBrains Mono',monospace; font-size:42px; font-weight:700; text-align:center; }
+  .mock-verdict { text-align:center; font-weight:700; font-size:14px; letter-spacing:1px; }
+  .tip { padding:14px 16px; border-radius:10px; background:rgba(240,168,48,.06); border:1px solid rgba(240,168,48,.2); margin:14px 0; font-size:13px; color:var(--accent); }
+  .tip::before { content:'💡 '; }
+  .warn { padding:14px 16px; border-radius:10px; background:rgba(248,113,113,.06); border:1px solid rgba(248,113,113,.2); margin:14px 0; font-size:13px; color:var(--bad); }
+  .warn::before { content:'⚠️ '; }
+  .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+  .tag.good { background:rgba(74,222,128,.12); color:var(--good); }
+  .tag.bad { background:rgba(248,113,113,.12); color:var(--bad); }
+  .tag.warn { background:rgba(240,168,48,.12); color:var(--accent); }
+  .flow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:10px 0; font-size:12px; color:var(--muted); }
+  .flow .arrow { color:var(--accent); font-weight:700; }
+  .section-title { font-size:20px; font-weight:700; margin:48px 0 16px; padding-top:24px; border-top:1px solid var(--border); }
+  code { font-family:'JetBrains Mono',monospace; font-size:12px; background:rgba(255,255,255,.06); padding:2px 6px; border-radius:4px; }
+  ul { padding-left:20px; margin:10px 0; }
+  ul li { color:var(--muted); font-size:14px; margin-bottom:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>FreightLogic</h1>
+<div class="subtitle">v16.3.0 USA Engine + Cloud Backup — First-Time User Guide</div>
+
+<!-- STEP 1 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--accent)">1</div>
+    <div class="step-title">Open the App & Install</div>
+  </div>
+  <div class="step-body">
+    <p>Open <code>index.html</code> in Chrome (desktop) or Safari (iPhone). You'll see the home screen with a welcome card.</p>
+    <div class="screen">
+      <div class="screen-bar"><div class="screen-dot" style="background:#ff5f57"></div><div class="screen-dot" style="background:#febc2e"></div><div class="screen-dot" style="background:#28c840"></div></div>
+      <div class="screen-content">
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-size:36px;margin-bottom:8px">🚛</div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:4px">Welcome to Freight Logic</div>
+          <div style="color:var(--muted);font-size:12px;margin-bottom:16px">Your personal trucking command center.</div>
+          <div style="font-size:12px;text-align:left;max-width:260px;margin:0 auto">
+            <div style="margin-bottom:8px">① <b>Log your first trip</b></div>
+            <div style="margin-bottom:8px">② <b>Add any expenses</b></div>
+            <div>③ <b>Watch your dashboard light up</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="mock-nav">
+        <span class="act">Home</span><span>Trips</span><span style="font-size:18px;color:var(--accent);font-weight:700">＋</span><span>Money</span><span>More</span>
+      </div>
+    </div>
+    <div class="warn">On iPhone/Safari: tap the Share button → "Add to Home Screen" immediately. Safari deletes data after 7 days if you don't install it.</div>
+    <div class="tip">The pulsing ＋ button at the bottom is your main action button. Tap it to add anything.</div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--good)">2</div>
+    <div class="step-title">Add Your First Trip</div>
+  </div>
+  <div class="step-body">
+    <p>Tap the <b>＋</b> button → <b>＋ Trip</b>. A two-step form opens.</p>
+    <div class="screen">
+      <div class="screen-bar"><div class="screen-dot" style="background:#ff5f57"></div><div class="screen-dot" style="background:#febc2e"></div><div class="screen-dot" style="background:#28c840"></div></div>
+      <div class="screen-content">
+        <div style="font-weight:700;font-size:14px;margin-bottom:12px">Step 1 — Load Info</div>
+        <input class="mock-field" value="ORDER-1234" readonly/>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Order #</div>
+        <input class="mock-field" value="2,500" readonly/>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Pay ($)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><input class="mock-field" value="800" readonly/><div style="font-size:11px;color:var(--muted)">Loaded miles</div></div>
+          <div><input class="mock-field" value="50" readonly/><div style="font-size:11px;color:var(--muted)">Empty miles</div></div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <div class="mock-btn primary" style="flex:1;text-align:center">Save Trip</div>
+          <div class="mock-btn outline">Step 2 →</div>
+        </div>
+      </div>
+    </div>
+    <p><b>Minimum needed:</b> Order # and Pay. Miles unlock RPM tracking and profit scoring.</p>
+    <p><b>Step 2</b> (optional but powerful): Add broker name, origin, destination. These power the Broker Grades and Lane Intelligence features.</p>
+    <div class="tip">After saving, you'll see a Score Flash showing your load's ACCEPT/REJECT verdict, margin score, and risk score.</div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--blue)">3</div>
+    <div class="step-title">Evaluate a Load Before Booking</div>
+  </div>
+  <div class="step-body">
+    <p>Tap <b>More</b> → <b>⚡ Midwest Stack</b>. This is your 90-second load decision engine.</p>
+    <div class="screen">
+      <div class="screen-bar"><div class="screen-dot" style="background:#ff5f57"></div><div class="screen-dot" style="background:#febc2e"></div><div class="screen-dot" style="background:#28c840"></div></div>
+      <div class="screen-content">
+        <div style="font-weight:700;font-size:14px;margin-bottom:4px">Freight Logic USA Engine</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Nationwide cargo-van intelligence</div>
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <div class="mock-btn primary" style="padding:4px 10px;font-size:11px">🟢 Harvest</div>
+          <div class="mock-btn outline" style="padding:4px 10px;font-size:11px">🔵 Reposition</div>
+          <div class="mock-btn outline" style="padding:4px 10px;font-size:11px">🟡 Escape</div>
+          <div class="mock-btn outline" style="padding:4px 10px;font-size:11px">🟠 Floor Protect</div>
+        </div>
+        <div class="mock-card">
+          <div style="text-align:center">
+            <div style="color:var(--good);font-size:12px;font-weight:700;letter-spacing:1px">🟢 STRONG LOAD</div>
+            <div class="mock-grade" style="color:var(--good)">A</div>
+            <div style="font-size:12px;color:var(--muted)">True RPM: <b style="color:var(--good)">$2.20</b></div>
+          </div>
+        </div>
+        <div class="mock-card" style="font-size:12px">
+          <div style="font-weight:700;margin-bottom:6px;font-size:11px;letter-spacing:.5px;color:var(--muted)">USA ENGINE • Harvest Mode</div>
+          <div><span style="color:var(--good)">✓</span> Destination: indianapolis — anchor market (Midwest)</div>
+          <div><span style="color:var(--good)">✓</span> Corridor: Midwest ↔ Midwest (favorable, +15)</div>
+          <div><span style="color:var(--good)">✓</span> Destination in preferred zone</div>
+        </div>
+      </div>
+    </div>
+    <p>Fill in origin, destination, loaded miles, deadhead miles, and revenue. Hit <b>Evaluate Load</b>.</p>
+    <p>You get a <b>Grade A–F</b>, <b>Accept/Reject/Strategic verdict</b>, <b>Smart Bid targets</b> (Premium Ask, Strong Target, Quick Accept), and the <b>USA Engine panel</b> showing market roles, corridors, and zone intelligence.</p>
+    <div class="tip"><b>Modes matter.</b> Use <b>Harvest</b> when you're in density. Switch to <b>Reposition</b> when you need to move toward a better market. <b>Escape</b> when stuck in a bad zone. <b>Floor Protect</b> late-week to stabilize revenue.</div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--purple)">4</div>
+    <div class="step-title">Track Expenses & Fuel</div>
+  </div>
+  <div class="step-body">
+    <p>Tap <b>＋</b> → <b>＋ Expense</b> or <b>＋ Fuel</b>.</p>
+    <div class="mock-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:600;font-size:14px">Fuel</div>
+          <div style="font-size:12px;color:var(--muted)">2025-06-01 • IN</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:700">$175.00</div>
+          <div style="font-size:11px;color:var(--muted)">50 gal • $3.50/gal</div>
+        </div>
+      </div>
+    </div>
+    <p>Fuel entries track by state for IFTA reporting. Expenses track by category (Fuel, Tolls, Repairs, Insurance, etc.)</p>
+    <div class="tip">The category field has autocomplete. Type a few letters and pick from the list.</div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--bad)">5</div>
+    <div class="step-title">Your Dashboard Comes Alive</div>
+  </div>
+  <div class="step-body">
+    <p>After logging a few trips and expenses, the <b>Home</b> screen transforms into a command center.</p>
+    <div class="screen">
+      <div class="screen-bar"><div class="screen-dot" style="background:#ff5f57"></div><div class="screen-dot" style="background:#febc2e"></div><div class="screen-dot" style="background:#28c840"></div></div>
+      <div class="screen-content">
+        <div class="mock-kpi">
+          <div class="mock-pill"><span style="color:var(--muted)">Week</span> <b>$3,200</b></div>
+          <div class="mock-pill"><span style="color:var(--muted)">AR</span> <b style="color:var(--bad)">$4,800</b></div>
+        </div>
+        <div class="mock-card" style="font-size:12px">
+          <div style="font-weight:600;margin-bottom:4px">Revenue Velocity</div>
+          <div>$457/day <span class="tag good">↑ 12%</span></div>
+        </div>
+        <div class="mock-card" style="font-size:12px">
+          <div style="font-weight:600;margin-bottom:4px">Weekly Progress</div>
+          <div style="height:6px;border-radius:3px;background:var(--border);margin:6px 0"><div style="height:100%;width:76%;border-radius:3px;background:var(--accent)"></div></div>
+          <div style="color:var(--muted)">$3,200 of $4,200 target (76%)</div>
+        </div>
+        <div class="mock-card" style="font-size:12px">
+          <div style="font-weight:600;margin-bottom:4px">Coaching</div>
+          <div style="color:var(--accent)">$1,000 to go • 2d left • ~2 loads at avg</div>
+        </div>
+      </div>
+    </div>
+    <p>You'll see revenue velocity, weekly target progress, goal coaching, efficiency scores, fuel drift tracking, and trend alerts.</p>
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:#ff6b6b">6</div>
+    <div class="step-title">Track Payments (AR)</div>
+  </div>
+  <div class="step-body">
+    <p>Tap the <b>Money</b> tab to see all unpaid loads. Tap <b>Paid</b> on any trip when the broker pays you.</p>
+    <div class="mock-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:600">ORDER-1234</div>
+          <div style="font-size:12px;color:var(--muted)">Test Broker • 2025-06-01</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <b>$2,500</b>
+          <span class="tag bad">UNPAID</span>
+        </div>
+      </div>
+    </div>
+    <p>The AR aging system tracks 0-30, 30-60, and 60+ day buckets so you know who owes you and how late they are.</p>
+  </div>
+</div>
+
+<!-- STEP 7 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--accent)">7</div>
+    <div class="step-title">Set Up Cloud Backup (Free)</div>
+  </div>
+  <div class="step-body">
+    <p>Your data auto-syncs to the cloud, encrypted with your passphrase. Follow <code>CLOUD_BACKUP_SETUP.md</code> to set up a free Cloudflare Worker in 5 minutes.</p>
+    <div class="flow">
+      <span>Data changes</span><span class="arrow">→</span>
+      <span>Encrypted on phone</span><span class="arrow">→</span>
+      <span>Pushed to cloud</span><span class="arrow">→</span>
+      <span>30 daily snapshots</span>
+    </div>
+    <p>Once configured, go to <b>Settings</b> → <b>☁️ Cloud Backup</b>, enter your Worker URL and passphrase, tap <b>Save</b>, then <b>☁️ Backup Now</b> to test.</p>
+    <div class="mock-card" style="font-size:12px">
+      <div style="font-weight:600;margin-bottom:6px">☁️ Cloud Backup</div>
+      <div style="color:var(--good)">Synced 2m ago</div>
+    </div>
+    <div class="tip">Your passphrase never leaves your phone. The server only ever sees encrypted data. Write your passphrase down somewhere safe — if you lose it, backups can't be recovered.</div>
+  </div>
+</div>
+
+<!-- STEP 10 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--accent)">8</div>
+    <div class="step-title">Manual Export (Belt + Suspenders)</div>
+  </div>
+  <div class="step-body">
+    <p>Tap <b>More</b> → <b>💾 Export & Backup</b>. This downloads a JSON file with all your trips, expenses, fuel, and settings — protected by a SHA-256 checksum.</p>
+    <div class="flow">
+      <span>Tap Export</span><span class="arrow">→</span>
+      <span>JSON downloads</span><span class="arrow">→</span>
+      <span>Save to iCloud / Drive / Email</span>
+    </div>
+    <div class="warn"><b>Do this weekly.</b> Your data only lives on this device. If you lose your phone or clear browser data, it's gone unless you have a backup.</div>
+    <p>To restore: <b>More</b> → <b>📥 Import Data</b> → pick your JSON backup file.</p>
+    <p>You can also export trips, expenses, or fuel as <b>CSV</b> for spreadsheets, or generate a <b>Weekly Report</b> image and an <b>Accountant Package</b>.</p>
+  </div>
+</div>
+
+<!-- STEP 10 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--blue)">8</div>
+    <div class="step-title">Snap Load — Scan Rate Confirmations</div>
+  </div>
+  <div class="step-body">
+    <p>Tap <b>＋</b> → <b>📸 Snap Load</b>. Take a photo of a rate confirmation and the app uses OCR to extract order number, broker, origin, destination, pay, and miles — then pre-fills a trip for you.</p>
+    <div class="flow">
+      <span>📸 Photo</span><span class="arrow">→</span>
+      <span>🔍 OCR reads text</span><span class="arrow">→</span>
+      <span>📝 Trip pre-filled</span><span class="arrow">→</span>
+      <span>✓ Verify & save</span>
+    </div>
+    <div class="tip">Snap Load requires internet the first time (to download the OCR engine). After that it works offline if you've placed the vendor files locally.</div>
+  </div>
+</div>
+
+<!-- STEP 10 -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num" style="background:var(--purple)">9</div>
+    <div class="step-title">Settings — Configure Your Profile</div>
+  </div>
+  <div class="step-body">
+    <p>Tap <b>More</b> → scroll down to <b>Tax & Reports</b> → scroll to <b>Settings</b>.</p>
+    <p><b>Key settings to configure:</b></p>
+    <ul>
+      <li><b>Weekly gross goal</b> — Sets your target (e.g., $4,200). Drives the coaching system.</li>
+      <li><b>Vehicle MPG</b> — Your truck's fuel economy. Used for fuel cost estimates.</li>
+      <li><b>Fuel price</b> — Set slightly above actual as a buffer.</li>
+      <li><b>Home Location</b> — e.g., "Indianapolis, IN". Loads going home auto-enable the $1.25 strategic floor.</li>
+      <li><b>Operating cost per mile</b> — Insurance, truck payment, maintenance, tires — everything except fuel, divided by monthly miles. This unlocks true profit analysis.</li>
+      <li><b>UI Mode</b> — Set to <b>Pro</b> to enable trip deletion and hard reset.</li>
+    </ul>
+    <div class="tip">Operating cost per mile is the single most impactful setting. Without it, the evaluator can only estimate fuel-based margins. With it, you get true profit analysis.</div>
+  </div>
+</div>
+
+<!-- QUICK REFERENCE -->
+<div class="section-title">Quick Reference</div>
+
+<div class="mock-card">
+  <div style="font-weight:700;margin-bottom:10px">Bottom Navigation</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px">
+    <div><b>Home</b> — Dashboard + KPIs</div>
+    <div><b>Trips</b> — Trip list + search</div>
+    <div><b>＋</b> — Quick Add (trip, expense, fuel, snap)</div>
+    <div><b>Money</b> — Unpaid loads / AR aging</div>
+    <div><b>More</b> — Expenses, Fuel, Stack, Reports, Import, Export, Settings</div>
+  </div>
+</div>
+
+<div class="mock-card">
+  <div style="font-weight:700;margin-bottom:10px">USA Engine Modes</div>
+  <div style="font-size:13px">
+    <div style="margin-bottom:6px">🟢 <b>Harvest</b> — You're in density. Tightest RPM floor ($1.60). Maximize yield.</div>
+    <div style="margin-bottom:6px">🔵 <b>Reposition</b> — Outside target density. Lower floor ($1.45) if destination is anchor/support.</div>
+    <div style="margin-bottom:6px">🟡 <b>Escape</b> — Stuck in bad zone. Lowest floor ($1.40). Prioritize exiting.</div>
+    <div>🟠 <b>Floor Protect</b> — Late-week. Moderate floor ($1.50). Favor certainty.</div>
+  </div>
+</div>
+
+<div class="mock-card">
+  <div style="font-weight:700;margin-bottom:10px">Grade Ladder</div>
+  <div style="font-size:13px;font-family:'JetBrains Mono',monospace">
+    <div><span style="color:var(--good)">A</span> — ≥ $1.75 RPM — Strong Load</div>
+    <div><span style="color:var(--blue)">B</span> — $1.60–$1.74 — Good Load</div>
+    <div><span style="color:var(--accent)">C</span> — $1.50–$1.59 — Professional</div>
+    <div><span style="color:#ff8c42">D</span> — $1.40–$1.49 — Minimum Acceptable</div>
+    <div><span style="color:var(--accent)">E</span> — $1.25–$1.39 — Strategic Only</div>
+    <div><span style="color:var(--bad)">F</span> — Below $1.25 — Reject</div>
+  </div>
+</div>
+
+<div class="mock-card">
+  <div style="font-weight:700;margin-bottom:10px">Trap Markets — Avoid These</div>
+  <div style="font-size:13px;color:var(--bad)">
+    Miami, Fort Lauderdale, West Palm Beach, Laredo, McAllen, Brownsville, Midland, Odessa, El Paso, Duluth, Marquette, Bangor, Burlington VT, Spokane
+  </div>
+  <div style="font-size:12px;color:var(--muted);margin-top:6px">These locations have poor reload probability and compress rates. The USA Engine auto-penalizes them.</div>
+</div>
+
+<div style="text-align:center;padding:40px 0 0;color:var(--muted);font-size:12px">
+  FreightLogic v16.3.0 — Built for owner-operators. Your data stays on your device (+ encrypted cloud backup).<br>
+  Run <code>node exhaustive_test_v16.js</code> to verify everything works.
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+FreightLogic v15.4.0 - Offline Core Build
+=========================================
+
+What this build improves:
+- Removes Google Fonts dependency, so the UI renders fully offline.
+- Adds local-first vendor loading for SheetJS and Tesseract.
+- Keeps CDN fallback for convenience when internet exists.
+
+What works fully offline right now:
+- Trips, expenses, fuel, home dashboard, insights, omega, storage, backup, export/import JSON/CSV/TXT, service worker, routing, calculations, Midwest Stack engine.
+
+What still needs vendor files for true offline use:
+- Excel import (.xlsx/.xls)
+- OCR / camera text extraction
+
+To make those two features offline too, place the required files in /vendor as listed in vendor/README.txt.
